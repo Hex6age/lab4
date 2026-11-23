@@ -21,44 +21,34 @@
       rounded
     ></v-text-field>
 
-    <!-- Кнопка профиля с выпадающим меню -->
-    <v-menu>
-      <template v-slot:activator="{ props }">
-        <v-btn
-          v-bind="props"
-          variant="text"
-          class="text-none"
-        >
-          Чертков И.М.
-          <v-icon end>mdi-chevron-down</v-icon>
-        </v-btn>
-      </template>
+    <!-- Кнопка Войти (на месте старого меню) -->
+    <v-btn variant="outlined" @click="openAuthDialog">
+      Войти
+    </v-btn>
 
-      <v-list>
-        <v-list-item prepend-icon="mdi-account-cog" title="Профиль" value="profile" @click="goToProfile"></v-list-item>
-        <v-list-item prepend-icon="mdi-logout" title="Выйти" value="logout" @click="logout"></v-list-item>
-      </v-list>
-    </v-menu>
+    <!-- Скрытый компонент диалога, который откроется по кнопке -->
+    <AuthDialog ref="authDialogRef" />
   </v-app-bar>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import AuthDialog from './AuthDialog.vue'; // Импортируем диалог
 
 const emit = defineEmits(['toggle-sidebar']);
 const searchQuery = ref('');
+
+// Ссылка на компонент диалога
+const authDialogRef = ref(null);
 
 function toggleSidebar() {
   emit('toggle-sidebar');
 }
 
-function goToProfile() {
-  console.log('Переход в профиль');
-  // Здесь будет роут на профиль
-}
-
-function logout() {
-  console.log('Выход из системы');
-  // Здесь будет логика выхода
+// Функция открытия диалога
+function openAuthDialog() {
+  if (authDialogRef.value) {
+    authDialogRef.value.open();
+  }
 }
 </script>

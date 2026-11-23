@@ -1,0 +1,42 @@
+{
+    "users": [
+      { 
+        "id": "rec_user_1", 
+        "UserId": 1, 
+        "Name": "Иван", 
+        "Surname": "Богданов", 
+        "Patronymic": "Олегович",
+        "DateRegistration": "2026-11-03 17:33"
+      },
+      { 
+        "id": "rec_user_2", 
+        "UserId": 2, 
+        "Name": "Тимофей", 
+        "Surname": "Лавриненко", 
+        "Patronymic": "Александрович",
+        "DateRegistration": "2026-11-03 17:33"
+      },
+      { 
+        "id": "rec_user_3", 
+        "UserId": 3, 
+        "Name": "Кирилл", 
+        "Surname": "Рубец", 
+        "Patronymic": "Сергеевич",
+        "DateRegistration": "2026-11-03 17:33"
+      },
+      { 
+        "id": "rec_user_4", 
+        "UserId": 4, 
+        "Name": "Роман", 
+        "Surname": "Егоров", 
+        "Patronymic": "Дмитриевич",
+        "DateRegistration": "2026-11-03 17:34"
+      }
+    ],
+    "login": [
+      { "id": "rec_login_1", "UserId": "rec_user_1", "Login": "bogdanov", "Password": "ivan", "Email": "bogdanov@ivan.ru" },
+      { "id": "rec_login_2", "UserId": "rec_user_2", "Login": "lavrinenko", "Password": "timofey", "Email": "lavrinenko@timofey.ru" },
+      { "id": "rec_login_3", "UserId": "rec_user_3", "Login": "rubec", "Password": "kirill", "Email": "rubec@kirill.ru" },
+      { "id": "rec_login_4", "UserId": "rec_user_4", "Login": "egorov", "Password": "roman", "Email": "egorov@roman.ru" }
+    ]
+  }
