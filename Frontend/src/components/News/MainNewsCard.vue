@@ -1,6 +1,5 @@
 <template>
   <v-card class="mb-6" elevation="3" rounded="lg">
-    <!-- Серая заглушка вместо картинки (по заданию) -->
     <div class="image-placeholder-large"></div>
     
     <v-card-title class="text-h4 font-weight-bold mt-4 px-6">
@@ -20,7 +19,6 @@
 </template>
 
 <script setup>
-// Принимаем объект новости как пропс
 defineProps({
   news: {
     type: Object,
@@ -30,7 +28,6 @@ defineProps({
 </script>
 
 <style scoped>
-/* Серая заглушка для большой картинки */
 .image-placeholder-large {
   width: 100%;
   height: 350px;

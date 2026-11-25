@@ -1,64 +1,50 @@
 <template>
   <v-app-bar color="primary" dark flat>
-    <!-- Кнопка для сайдбара -->
     <v-app-bar-nav-icon @click="toggleSidebar"></v-app-bar-nav-icon>
-
-    <!-- Заголовок -->
     <v-toolbar-title class="text-h6 font-weight-bold">Новости</v-toolbar-title>
-
     <v-spacer></v-spacer>
 
-    <!-- Поле поиска -->
-    <v-text-field
-      v-model="searchQuery"
-      placeholder="Поиск"
-      variant="outlined"
-      density="compact"
-      hide-details
-      bg-color="white"
-      class="mx-4"
-      style="max-width: 300px"
-      rounded
-    ></v-text-field>
+    <v-text-field v-model="searchQuery" placeholder="Поиск" variant="outlined" density="compact" hide-details bg-color="white" class="mx-4" style="max-width: 300px" rounded></v-text-field>
 
-    <!-- Кнопка профиля с выпадающим меню -->
-    <v-menu>
-      <template v-slot:activator="{ props }">
-        <v-btn
-          v-bind="props"
-          variant="text"
-          class="text-none"
-        >
-          Чертков И.М.
-          <v-icon end>mdi-chevron-down</v-icon>
-        </v-btn>
-      </template>
+    <div v-if="currentUser" class="d-flex align-center">
+      <span class="mr-4">{{ currentUser.Surname }} {{ currentUser.Name }}</span>
+      <v-btn variant="outlined" color="white" @click="logout">Выйти</v-btn>
+    </div>
+    
+    <v-btn v-else variant="outlined" @click="openAuthDialog">Войти</v-btn>
 
-      <v-list>
-        <v-list-item prepend-icon="mdi-account-cog" title="Профиль" value="profile" @click="goToProfile"></v-list-item>
-        <v-list-item prepend-icon="mdi-logout" title="Выйти" value="logout" @click="logout"></v-list-item>
-      </v-list>
-    </v-menu>
+    <AuthDialog ref="authDialogRef" @login-success="updateUser" />
   </v-app-bar>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue'; // computed больше не нужен
+import AuthDialog from './AuthDialog.vue';
 
 const emit = defineEmits(['toggle-sidebar']);
 const searchQuery = ref('');
+const authDialogRef = ref(null);
 
-function toggleSidebar() {
-  emit('toggle-sidebar');
-}
+const currentUser = ref(null);
 
-function goToProfile() {
-  console.log('Переход в профиль');
-  // Здесь будет роут на профиль
+const updateUser = () => {
+  const userStr = sessionStorage.getItem('currentUser');
+  currentUser.value = userStr ? JSON.parse(userStr) : null;
+};
+
+onMounted(() => {
+  updateUser();
+});
+
+function toggleSidebar() { emit('toggle-sidebar'); }
+
+function openAuthDialog() {
+  if (authDialogRef.value) authDialogRef.value.open();
 }
 
 function logout() {
-  console.log('Выход из системы');
-  // Здесь будет логика выхода
+  sessionStorage.removeItem('recordId');
+  sessionStorage.removeItem('currentUser');
+  currentUser.value = null; // Мгновенно скрываем имя и показываем кнопку "Войти"
 }
 </script>
