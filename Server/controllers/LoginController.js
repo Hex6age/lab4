@@ -12,13 +12,11 @@ router.get('/auth', (req, res) => {
   try {
     const data = tableService._get('login');
     
-    // Ищем совпадение по email и паролю
     const user = data.records.find(r => r.Email === email && r.Password === password);
 
     if (!user) {
       res.status(400).json({ message: 'Пользователь не найден', recordId: 0 });
     } else {
-      // Возвращаем id записи (rec_login_1)
       res.status(200).json({ 
         message: 'Успешная авторизация', 
         recordId: user.id 

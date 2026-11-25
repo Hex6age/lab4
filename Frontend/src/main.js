@@ -14,7 +14,6 @@ const vuetify = createVuetify({
     defaultSet: 'mdi',
   },
 })
-
 const app = createApp(App)
 app.use(router)
 app.use(vuetify)

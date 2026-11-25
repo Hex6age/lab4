@@ -1,54 +1,50 @@
 <template>
   <v-app-bar color="primary" dark flat>
-    <!-- Кнопка для сайдбара -->
     <v-app-bar-nav-icon @click="toggleSidebar"></v-app-bar-nav-icon>
-
-    <!-- Заголовок -->
     <v-toolbar-title class="text-h6 font-weight-bold">Новости</v-toolbar-title>
-
     <v-spacer></v-spacer>
 
-    <!-- Поле поиска -->
-    <v-text-field
-      v-model="searchQuery"
-      placeholder="Поиск"
-      variant="outlined"
-      density="compact"
-      hide-details
-      bg-color="white"
-      class="mx-4"
-      style="max-width: 300px"
-      rounded
-    ></v-text-field>
+    <v-text-field v-model="searchQuery" placeholder="Поиск" variant="outlined" density="compact" hide-details bg-color="white" class="mx-4" style="max-width: 300px" rounded></v-text-field>
 
-    <!-- Кнопка Войти (на месте старого меню) -->
-    <v-btn variant="outlined" @click="openAuthDialog">
-      Войти
-    </v-btn>
+    <div v-if="currentUser" class="d-flex align-center">
+      <span class="mr-4">{{ currentUser.Surname }} {{ currentUser.Name }}</span>
+      <v-btn variant="outlined" color="white" @click="logout">Выйти</v-btn>
+    </div>
+    
+    <v-btn v-else variant="outlined" @click="openAuthDialog">Войти</v-btn>
 
-    <!-- Скрытый компонент диалога, который откроется по кнопке -->
-    <AuthDialog ref="authDialogRef" />
+    <AuthDialog ref="authDialogRef" @login-success="updateUser" />
   </v-app-bar>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import AuthDialog from './AuthDialog.vue'; // Импортируем диалог
+import { ref, onMounted } from 'vue'; // computed больше не нужен
+import AuthDialog from './AuthDialog.vue';
 
 const emit = defineEmits(['toggle-sidebar']);
 const searchQuery = ref('');
-
-// Ссылка на компонент диалога
 const authDialogRef = ref(null);
 
-function toggleSidebar() {
-  emit('toggle-sidebar');
+const currentUser = ref(null);
+
+const updateUser = () => {
+  const userStr = sessionStorage.getItem('currentUser');
+  currentUser.value = userStr ? JSON.parse(userStr) : null;
+};
+
+onMounted(() => {
+  updateUser();
+});
+
+function toggleSidebar() { emit('toggle-sidebar'); }
+
+function openAuthDialog() {
+  if (authDialogRef.value) authDialogRef.value.open();
 }
 
-// Функция открытия диалога
-function openAuthDialog() {
-  if (authDialogRef.value) {
-    authDialogRef.value.open();
-  }
+function logout() {
+  sessionStorage.removeItem('recordId');
+  sessionStorage.removeItem('currentUser');
+  currentUser.value = null; // Мгновенно скрываем имя и показываем кнопку "Войти"
 }
 </script>

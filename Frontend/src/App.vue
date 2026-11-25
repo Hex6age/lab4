@@ -1,12 +1,9 @@
 <template>
   <v-app>
-    <!-- Navbar -->
     <Navbar @toggle-sidebar="sidebarRef?.toggle()" />
 
-    <!-- Sidebar (теперь слева) -->
     <Sidebar ref="sidebarRef" />
 
-    <!-- Основной контент -->
     <v-main>
       <router-view />
     </v-main>

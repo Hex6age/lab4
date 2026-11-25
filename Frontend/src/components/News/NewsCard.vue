@@ -1,6 +1,5 @@
 <template>
   <v-card elevation="2" rounded="lg" height="100%">
-    <!-- Серая заглушка вместо картинки -->
     <div class="image-placeholder-small"></div>
     
     <v-card-title class="text-h6">
@@ -33,7 +32,6 @@ defineProps({
 </script>
 
 <style scoped>
-/* Серая заглушка для маленькой картинки */
 .image-placeholder-small {
   width: 100%;
   height: 180px;
